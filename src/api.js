@@ -2,8 +2,15 @@
 
 const express    = require('express');
 const bodyParser = require('body-parser');
+const helmet     = require('helmet');
 
 const api = express();
+const patient  = require('../routes/patient');
+const doctor = require('../routes/doctor');
+const auth = require('../routes/auth')
+api.use(helmet());
+api.use(bodyParser.json());
+api.use(bodyParser.urlencoded({ extended: false }));
 
 // Basic route
 api.get('/', (req, res) => {
@@ -13,6 +20,8 @@ api.get('/', (req, res) => {
 });
 
 // API routes
-const patient  = require('./routes/patient');
+api.use('/patient', patient);
+api.use('/doctor', doctor);
+api.use('/auth', auth);
 
 module.exports = api;
