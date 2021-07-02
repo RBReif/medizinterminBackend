@@ -12,4 +12,7 @@ api.get('/', (req, res) => {
     });
 });
 
+// API routes
+const patient  = require('./routes/patient');
+
 module.exports = api;
