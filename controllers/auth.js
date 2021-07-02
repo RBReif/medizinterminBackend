@@ -77,7 +77,7 @@ const register = async (req, res) => {
         const user = {
             username: req.body.username,
             password: hashedPassword,
-            role: req.body.isAdmin ? "admin" : "member",
+            role: req.body.role,
         };
 
         // create the user in the database
