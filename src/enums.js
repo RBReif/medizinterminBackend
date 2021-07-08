@@ -39,10 +39,17 @@ const AppointmentStatus = {
     AVAILABLE: "AVAILABLE",
 }
 
+const UserType = {
+    DOCTOR: "DOCTOR",
+    PATIENT: "PATIENT",
+
+}
+
 module.exports = {
     AreaOfExpertise,
     InsuranceType,
     Language,
     SpecialFacility,
     AppointmentStatus,
+    UserType,
 }

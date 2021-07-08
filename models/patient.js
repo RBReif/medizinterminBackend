@@ -13,6 +13,18 @@ const opts = { toJSON: { virtuals: true } };
  * insurance - Enum
  */
 const PatientSchema = new mongoose.Schema({
+
+    // username of patient
+    username:{
+            type: String,
+            required: true,
+            unique: true,
+        },
+    // password of patient
+    password: {
+            type: String,
+            required: true,
+        },
     // name of patient
     name: String,
     // date of birth
