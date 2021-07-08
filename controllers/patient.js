@@ -1,7 +1,127 @@
 "use strict";
 
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+
+const config = require("../src/config");
 const PatientModel = require("../models/patient");
 
+const login = async (req, res) => {
+    // check if the body of the request contains all necessary properties
+    if (!Object.prototype.hasOwnProperty.call(req.body, "password"))
+        return res.status(400).json({
+            error: "Bad Request",
+            message: "The request body must contain a password property",
+        });
+
+    if (!Object.prototype.hasOwnProperty.call(req.body, "username"))
+        return res.status(400).json({
+            error: "Bad Request",
+            message: "The request body must contain a username property",
+        });
+
+    // handle the request
+    try {
+        // get the user from the database
+        let patient = await PatientModel.findOne({
+            username: req.body.username,
+        }).exec();
+
+        // check if the password is valid
+        const isPasswordValid = bcrypt.compareSync(
+            req.body.password,
+            patient.password,
+        );
+        if (!isPasswordValid) return res.status(401).send({ token: null });
+
+        // if patient is found and password is valid
+        // create a token
+        const token = jwt.sign(
+            { _id: patient._id, username: patient.username},
+            config.JwtSecret,
+            {
+                expiresIn: 86400, // expires in 24 hours
+            }
+        );
+
+        return res.status(200).json({
+            token: token,
+            username: patient.username,
+            _id: patient._id,
+        });
+    } catch (err) {
+        return res.status(404).json({
+            error: "User Not Found",
+            message: err.message,
+        });
+    }
+};
+const register = async (req, res) => {
+    // check if the body of the request contains all necessary properties
+    if (!Object.prototype.hasOwnProperty.call(req.body, "password"))
+        return res.status(400).json({
+            error: "Bad Request",
+            message: "The request body must contain a password property",
+        });
+
+    if (!Object.prototype.hasOwnProperty.call(req.body, "username"))
+        return res.status(400).json({
+            error: "Bad Request",
+            message: "The request body must contain a username property",
+        });
+
+    // handle the request
+    try {
+        // hash the password before storing it in the database
+        const hashedPassword = bcrypt.hashSync(req.body.password, 8);
+
+        // // create a user object
+        // const user = {
+        //     username: req.body.username,
+        //     password: hashedPassword,
+        //     role: req.body.role,
+        // };
+        req.body.password = hashedPassword;
+
+        // create the user in the database
+        let patient = await PatientModel.create(req.body);
+
+        // if user is registered without errors
+        // create a token
+        const token = jwt.sign(
+            {
+                _id: patient._id,
+                username: patient.username,
+            },
+            config.JwtSecret,
+            {
+                expiresIn: 86400, // expires in 24 hours
+            }
+        );
+
+        // doctor created, return generated token
+        res.status(201).json({
+            token: token,
+            username: patient.username,
+            _id: patient._id,
+        });
+    } catch (err) {
+        if (err.code == 11000) {
+            return res.status(400).json({
+                error: "User exists",
+                message: err.message,
+            });
+        } else {
+            return res.status(500).json({
+                error: "Internal server error",
+                message: err.message,
+            });
+        }
+    }
+};
+const logout = (req, res) => {
+    res.status(200).send({ token: null });
+};
 const create = async (req, res) => {
     // check if the body of the request contains all necessary properties
     if (Object.keys(req.body).length === 0)
@@ -101,4 +221,7 @@ module.exports = {
     read,
     update,
     remove,
+    login,
+    register,
+    logout,
 }
