@@ -20,6 +20,6 @@ router.put(
 router.delete(
     "/:id",
     DoctorController.remove
-)
+);
 
 module.exports = router;

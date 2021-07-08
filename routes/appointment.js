@@ -20,4 +20,9 @@ router.put(
     AppointmentsController.updateAppointment,
 )
 
+router.get(
+    "/:id",
+    AppointmentsController.getAppointment,
+)
+
 module.exports = router;

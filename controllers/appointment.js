@@ -24,7 +24,7 @@ const updateAppointment = async (req, res) => {
         }
         switch (req.body.appointmentStatus) {
             case Enum.AppointmentStatus.SCHEDULED:
-                if (appointment.status !== Enum.AppointmentStatus.AVAILABLE) {
+                if (appointment.appointmentStatus !== Enum.AppointmentStatus.AVAILABLE) {
                     return res.status(400).json({message: "This appointment is not available"})
                 }
                 if (req.body.patient == null) {
@@ -40,9 +40,12 @@ const updateAppointment = async (req, res) => {
             case Enum.AppointmentStatus.SUCCESSFUL:
                 appointment.appointmentStatus = Enum.AppointmentStatus.SUCCESSFUL
                 break;
+            default:
+                return res.status(400).json({message: "Only setting the Status to SUCCESSFUL, FAILED, SCHEDULED is allowed"})
+
         }
-        const updatedAppointment = await appointment.save()
-        res.status(204).json(updatedAppointment)
+        let updatedAppointment = await appointment.save()
+        res.status(200).json(updatedAppointment)
     } catch (err) {
         console.log(err)
         return res.status(500).json({message: err.message})
@@ -61,10 +64,23 @@ const deleteAppointment = async (req, res) => {
     }
 }
 
+const getAppointment = async (req, res) => {
+  let appointment
+    try {
+         appointment = await AppointmentModel.findById(req.params.id)
+        if (appointment==null) {
+            return res.status(404).json({message: "Can not find specified appointment"})
+        }
+        return res.status(200).json(appointment)
+        }catch (err){
+        return res.status(500).json({ message: err.message})
+    }
 
+}
 
 module.exports = {
     deleteAppointment,
     createAppointment,
     updateAppointment,
+    getAppointment,
 }
