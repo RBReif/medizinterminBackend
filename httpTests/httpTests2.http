@@ -70,9 +70,21 @@ Content-Type: application/json
   "startpoint": "2021-07-09T10:30:00.000Z",
   "endpoint": "2021-07-09T23:30:00.000Z"
 
-
 }
 
 ###
 
+PUT http://localhost:4000/appointment/60e70be52c79d33ed899b264/
+Content-Type: application/json
 
+{
+  "appointmentStatus": "SUCCESSFUL"
+}
+
+###
+GET http://localhost:4000/appointment/60e70df7107fe3427052283d
+Content-Type: application/json
+
+{
+ "usecase": "DOCTOR"
+}

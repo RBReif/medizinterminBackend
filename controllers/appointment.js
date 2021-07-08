@@ -75,13 +75,36 @@ const deleteAppointment = async (req, res) => {
 }
 
 const getAppointment = async (req, res) => {
-    let appointment
     try {
-        appointment = await AppointmentModel.findById(req.params.id)
-        if (appointment == null) {
-            return res.status(404).json({message: "Can not find specified appointment"})
+        switch (req.body.usecase){
+            case Enum.GetAppointmentUseCAse.APPOINTMENT:
+                let appointment = await AppointmentModel.findById(req.params.id)
+                if (appointment == null) {
+                    return res.status(404).json({message: "Can not find specified appointment"})
+                }
+                return res.status(200).json(appointment)
+                break;
+            case Enum.GetAppointmentUseCAse.DOCTOR:
+                let appointmentsDoc = await AppointmentModel.find({
+                    doctor: req.params.id
+                    }
+                )
+
+                return res.status(200).json(appointmentsDoc)
+                break;
+
+            case Enum.GetAppointmentUseCAse.PATIENT:
+                let appointmentsPat = await AppointmentModel.find({
+                        patient: req.params.id
+                    }
+                )
+
+                return res.status(200).json(appointmentsPat)
+                break;
+
         }
-        return res.status(200).json(appointment)
+
+
     } catch (err) {
         return res.status(500).json({message: err.message})
     }
@@ -95,40 +118,41 @@ var isDate = function (date) {
 
 const filterAppointment = async (req, res) => {
     try {
-        let profession = req.body.profession
 
-       if (!Object.values(Enum.AreaOfExpertise).includes(profession)) {
-          return   res.status(400).json({message: "Profession unknown"})
+        let profession = req.body.profession
+        if (!Object.values(Enum.AreaOfExpertise).includes(profession)) {
+            return res.status(400).json({message: "Profession unknown"})
         }
 
 
         let languages = req.body.languagesD
         if (!languages.every((item) => Object.values(Enum.Language).includes(item))) {
-          return  res.status(400).json({message: "Language(s) unknown"})
+            return res.status(400).json({message: "Language(s) unknown"})
         }
 
 
         let facilities
-        facilities= req.body.facilities
+        facilities = req.body.facilities
         if (!facilities.every((item) => Object.values(Enum.SpecialFacility).includes(item))) {
-          return  res.status(400).json({message: "Facilitie(s) unknown"})
+            return res.status(400).json({message: "Facilitie(s) unknown"})
         }
 
         console.log("Facilities: ", facilities)
         console.log("Languages: ", languages)
 
         let fittingDoctors
-            if (facilities.length>0){
+        if (facilities.length > 0) {
             fittingDoctors = await DoctorModel.find({
-            area_of_expertise: profession,
-            languages: {$in: languages},
-            special_facilities: {$all: facilities},
-        });}else{
-                fittingDoctors = await DoctorModel.find({
-                    area_of_expertise: profession,
-                    languages: {$in: languages},
-                });
-            }
+                area_of_expertise: profession,
+                languages: {$in: languages},
+                special_facilities: {$all: facilities},
+            });
+        } else {
+            fittingDoctors = await DoctorModel.find({
+                area_of_expertise: profession,
+                languages: {$in: languages},
+            });
+        }
         console.log(fittingDoctors)
 
         let fittingDoctorIDs = fittingDoctors.map((item) => item["_id"])
@@ -137,18 +161,18 @@ const filterAppointment = async (req, res) => {
         let startpoint = new Date(req.body.startpoint)
         let endpoint = new Date(req.body.endpoint)
         if (startpoint.isNaN || endpoint.isNaN) {
-          return  res.status(400).json({message: "Date or Time wrongly specified"})
+            return res.status(400).json({message: "Date or Time wrongly specified"})
         }
-        if (endpoint<startpoint){
-            return   res.status(400).json({message: "Endpoint must be later than startpoint"})
+        if (endpoint < startpoint) {
+            return res.status(400).json({message: "Endpoint must be later than startpoint"})
 
         }
-        console.log("Startpoint: ",startpoint)
-        console.log("endpoint: ",endpoint)
+        console.log("Startpoint: ", startpoint)
+        console.log("endpoint: ", endpoint)
 
         let appointments = await AppointmentModel.find({
             doctor: {$in: fittingDoctorIDs},
-            startPoint:{
+            startPoint: {
                 $gte: startpoint,
                 $lt: endpoint
             },
@@ -159,7 +183,7 @@ const filterAppointment = async (req, res) => {
         console.log("Appointments ", appointments)
 
 
-       return  res.status(200).json(appointments)
+        return res.status(200).json(appointments)
 
     } catch (err) {
         console.log(err)
@@ -168,9 +192,6 @@ const filterAppointment = async (req, res) => {
 
 }
 
-
-
-
 module.exports = {
     deleteAppointment,
     createAppointment,
@@ -178,3 +199,5 @@ module.exports = {
     getAppointment,
     filterAppointment,
 }
+
+
