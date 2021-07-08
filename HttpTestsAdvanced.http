@@ -1,0 +1,78 @@
+POST http://localhost:4000/doctor/
+Content-Type: application/json
+
+{
+  "username": "testRadiologist4",
+  "password": "1234",
+  "name": "Max Musterman",
+  "area_of_expertise": "RADIOLOGIST",
+  "languages": ["GERMAN","ENGLISH"],
+  "special_facilities": ["PARKING","WHEELCHAIR"]
+}
+
+###
+
+POST http://localhost:4000/doctor/
+Content-Type: application/json
+
+{
+"username": "testRadiologist5",
+"password": "1234",
+"name": "Max Musterman",
+"area_of_expertise": "RADIOLOGIST",
+"languages": ["FRENCH","ENGLISH"],
+"special_facilities": ["PARKING"]
+}
+
+###
+POST http://localhost:4000/appointment
+Content-Type: application/json
+
+{
+  "doctor": "60e70bc72c79d33ed899b25f",
+  "startPoint": "2021-07-09T22:30:00.000Z"
+}
+###
+POST http://localhost:4000/appointment
+Content-Type: application/json
+
+{
+"doctor": "60e70bc72c79d33ed899b25f",
+"startPoint": "2021-07-09T23:30:00.000Z"
+}
+
+###
+POST http://localhost:4000/appointment
+Content-Type: application/json
+
+{
+  "doctor": "60e70bc72c79d33ed899b25f",
+  "startPoint": "2021-07-09T21:30:00.000Z"
+}
+###
+###
+POST http://localhost:4000/appointment
+Content-Type: application/json
+
+{
+  "doctor": "60e70bc72c79d33ed899b25f",
+  "startPoint": "2021-07-09T20:30:00.000Z"
+}
+
+###
+GET http://localhost:4000/appointment/
+Content-Type: application/json
+
+{
+  "profession": "RADIOLOGIST",
+  "languagesD": ["ENGLISH"],
+  "facilities": ["PARKING"],
+  "startpoint": "2021-07-09T10:30:00.000Z",
+  "endpoint": "2021-07-09T23:30:00.000Z"
+
+
+}
+
+###
+
+
