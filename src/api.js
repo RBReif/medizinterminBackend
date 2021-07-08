@@ -12,6 +12,11 @@ api.use(helmet());
 api.use(bodyParser.json());
 api.use(bodyParser.urlencoded({ extended: false }));
 
+api.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+
 // Basic route
 api.get('/', (req, res) => {
     res.json({
