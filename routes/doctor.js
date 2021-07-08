@@ -12,11 +12,11 @@ router.post(
     DoctorController.create,
 ); // Create a new doctor
 
-router.get("/:id", DoctorController.read); // Read a movie by Id
+router.get("/:id", DoctorController.read);
 router.put(
     "/:id",
     DoctorController.update
-); // Update a doctor by Id
+);
 router.delete(
     "/:id",
     DoctorController.remove
