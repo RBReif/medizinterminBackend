@@ -7,7 +7,8 @@ const helmet     = require('helmet');
 const api = express();
 const patient  = require('../routes/patient');
 const doctor = require('../routes/doctor');
-const auth = require('../routes/auth')
+const auth = require('../routes/auth');
+const appointment = require('../routes/appointment');
 api.use(helmet());
 api.use(bodyParser.json());
 api.use(bodyParser.urlencoded({ extended: false }));
@@ -23,5 +24,6 @@ api.get('/', (req, res) => {
 api.use('/patient', patient);
 api.use('/doctor', doctor);
 api.use('/auth', auth);
+api.use('/appointment', appointment)
 
 module.exports = api;
