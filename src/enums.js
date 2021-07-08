@@ -34,7 +34,7 @@ const SpecialFacility = {
 const AppointmentStatus = {
     SUCCESSFUL: "SUCCESSFUL",
     SCHEDULED: "SCHEDULED",
-    REQUESTED: "REQUESTED",
+ //   REQUESTED: "REQUESTED",
     FAILED: "FAILED",
     AVAILABLE: "AVAILABLE",
 }
