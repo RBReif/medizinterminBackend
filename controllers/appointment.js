@@ -78,9 +78,19 @@ const getAppointment = async (req, res) => {
 
 }
 
+const filterAppointment = async (req,res) => {
+    let profession = req.body.profession
+
+}
+
+
+
+
+
 module.exports = {
     deleteAppointment,
     createAppointment,
     updateAppointment,
     getAppointment,
+    filterAppointment,
 }
