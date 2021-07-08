@@ -17,17 +17,19 @@ const AppointmentSchema = new mongoose.Schema(
         },
         patient:{ //patient`s ID
             type: String,
-            required: true,
+            required: false,
         },
         startPoint:{
             type: Date,
             required:true,
-        },
+        }, // all our appointments have a fixed duration e.g. 30 minutes
+        /*
         endPoint:{
             type: Date,
             required:true,
         },
-        status:{
+         */
+        appointmentStatus:{
             type: String,
             enum: Enum.AppointmentStatus,
             required:true,
