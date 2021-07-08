@@ -27,16 +27,12 @@ const DoctorSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        // name of patient
+        // name of doctor
         name: {
             type: String,
             required: true,
         },
-        // date of birth
-        date_of_birth: {
-            type: String,
-            required: true,
-        },
+
         // area_of_expertise
         area_of_expertise: {
             type: String,

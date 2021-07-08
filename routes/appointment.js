@@ -27,7 +27,7 @@ router.get(
 
 router.get(
     "/",
-    AppointmentsController.filterAppointments,
+    AppointmentsController.filterAppointment,
 )
 
 module.exports = router;
