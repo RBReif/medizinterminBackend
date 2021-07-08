@@ -18,6 +18,15 @@ const opts = { toJSON: { virtuals: true } };
  */
 const DoctorSchema = new mongoose.Schema(
     {
+        username:{
+            type: String,
+            required: true,
+            unique: true,
+        },
+        password: {
+            type: String,
+            required: true,
+        },
         // name of patient
         name: {
             type: String,
