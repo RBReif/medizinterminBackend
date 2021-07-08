@@ -16,6 +16,13 @@ const InsuranceType = {
     PRIVATE: "PRIVATE",
 }
 
+const GetAppointmentUseCAse = {
+    APPOINTMENT: "APPOINTMENT",
+    DOCTOR: "DOCTOR",
+    PATIENT: "PATIENT",
+
+}
+
 const Language = {
     GERMAN: "GERMAN",
     ENGLISH: "ENGLISH",
@@ -52,4 +59,5 @@ module.exports = {
     SpecialFacility,
     AppointmentStatus,
     UserType,
+    GetAppointmentUseCAse
 }
