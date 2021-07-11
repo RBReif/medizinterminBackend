@@ -8,9 +8,11 @@ const api = express();
 const patient  = require('../routes/patient');
 const doctor = require('../routes/doctor');
 const appointment = require('../routes/appointment');
+const middleware = require('../src/middleware')
 api.use(helmet());
 api.use(bodyParser.json());
 api.use(bodyParser.urlencoded({ extended: false }));
+api.use(middleware.allowCrossDomain);
 
 api.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
