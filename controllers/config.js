@@ -4,10 +4,10 @@ const enums = require("../src/enums")
 const read = async (req, res) => {
     try{
         return res.status(200).json({
-            areas : enums.AreaOfExpertise,
-            insurances: enums.InsuranceType,
-            languages: enums.Language,
-            facilities: enums.SpecialFacility
+            areas : Object.values(enums.AreaOfExpertise),
+            insurances: Object.values(enums.InsuranceType),
+            languages: Object.values(enums.Language),
+            facilities: Object.values(enums.SpecialFacility)
         })
     }catch (err){
         console.log(err)
