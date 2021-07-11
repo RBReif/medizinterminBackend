@@ -8,6 +8,7 @@ const api = express();
 const patient  = require('../routes/patient');
 const doctor = require('../routes/doctor');
 const appointment = require('../routes/appointment');
+const config = require('../routes/config')
 api.use(helmet());
 api.use(bodyParser.json());
 api.use(bodyParser.urlencoded({ extended: false }));
@@ -28,5 +29,6 @@ api.get('/', (req, res) => {
 api.use('/patient', patient);
 api.use('/doctor', doctor);
 api.use('/appointment', appointment)
+api.use('/config', config)
 
 module.exports = api;
