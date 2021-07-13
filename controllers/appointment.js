@@ -125,7 +125,7 @@ const filterAppointment = async (req, res) => {
         }
 
 
-        let languages = req.body.languagesD
+        let languages = req.body.languages
         if (!languages.every((item) => Object.values(Enum.Language).includes(item))) {
             return res.status(400).json({message: "Language(s) unknown"})
         }
