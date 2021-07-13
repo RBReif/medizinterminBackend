@@ -76,6 +76,20 @@ const deleteAppointment = async (req, res) => {
 
 const getAppointment = async (req, res) => {
     try {
+
+        /*
+        let appointmentWithID = await  AppointmentModel.findById(req.params.id)
+        let appointmentsDoctor = await AppointmentModel.find({doctor: req.params.id})
+        let appointmentsPatients = await AppointmentModel.find(patient:req.params.id)
+        if (appointmentsDoctor.length ===0 && appointmentsPatients.length ===0 && appointmentWithID===null){
+            return res.status(404).json({message: "Can not find specified appointment(s)"})
+        }
+        let appointments = appointmentsDoctor.concat(appointmentsPatients)
+        appointments.push(appointmentWithID)
+            return res.status(200).json(appointments)
+
+         */
+
         switch (req.body.usecase){
             case Enum.GetAppointmentUseCAse.APPOINTMENT:
                 let appointment = await AppointmentModel.findById(req.params.id)

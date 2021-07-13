@@ -65,7 +65,7 @@ Content-Type: application/json
 
 {
   "profession": "RADIOLOGIST",
-  "languagesD": ["ENGLISH"],
+  "languages": ["ENGLISH"],
   "facilities": ["PARKING"],
   "startpoint": "2021-07-09T10:30:00.000Z",
   "endpoint": "2021-07-09T23:30:00.000Z"
