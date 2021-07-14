@@ -40,7 +40,9 @@ Content-Type: application/json
   "name": "Max Musterman",
   "area_of_expertise": "DENTIST",
   "languages": ["GERMAN","ENGLISH"],
-  "special_facilities": ["PARKING","WHEELCHAIR"]
+  "special_facilities": ["PARKING","WHEELCHAIR"],
+  "address": "Ungererstr. 58, 80805 München",
+  "phone_number": "123456",
 }
 
 
