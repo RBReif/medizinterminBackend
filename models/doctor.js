@@ -47,7 +47,18 @@ const DoctorSchema = new mongoose.Schema(
         special_facilities: {
             type: [String],
             enum: Enum.SpecialFacility,
-        }
+        },
+        //address
+        address: {
+            type: String,
+            enum: Enum.Address,
+            required: true
+        },
+        phone_number: {
+            type: String,
+            enum: PhoneNumber,
+        },
+
     },
     {collection: 'doctor'}
 );
