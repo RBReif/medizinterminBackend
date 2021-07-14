@@ -233,6 +233,7 @@ const list = async (req, res) => {
     }
 };
 
+//Rate a doctor 
 const rate = async (req, res) => {
     try {
         let votedDoctorId = req.params.id;
@@ -279,6 +280,7 @@ const rate = async (req, res) => {
     }
 };
 
+//get the rate of a doctor
 const getRate = async (req, res) => {
     try {
         let doctorId = req.params.id;
@@ -299,6 +301,14 @@ const getRate = async (req, res) => {
         });
     }
 };
+
+
+//*********TO DO *********
+//get the location of the doctor and calculate the distance
+// DoctorSchema.virtual("distance").get(function() {
+//     //calculate the distance 
+
+// });
 
 
 module.exports = {
