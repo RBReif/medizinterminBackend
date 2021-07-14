@@ -51,13 +51,11 @@ const DoctorSchema = new mongoose.Schema(
         //address
         address: {
             type: String,
-            enum: Enum.Address,
             required: true
         },
-        phone_number: {
-            type: String,
-            enum: PhoneNumber,
-        },
+        //phone number, not required 
+        phone_number: String,
+
 
     },
     {collection: 'doctor'}
