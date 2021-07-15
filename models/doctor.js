@@ -8,7 +8,7 @@ const Enum = require("../src/enums")
 const opts = { toJSON: { virtuals: true } };
 
 // Define schema for ratings
-const RatingSchema = new mongoose.Schema({
+const AddressSchema = new mongoose.Schema({
             //address, required
             address: {
                 type: String,
@@ -19,7 +19,7 @@ const RatingSchema = new mongoose.Schema({
             longitude: String,
     });
 
-const AddressSchema = new mongoose.Schema({
+const Ratingschema = new mongoose.Schema({
     patientId: { type: mongoose.Schema.Types.ObjectId, ref: "patient" },
     // rating of user
     rating: {
