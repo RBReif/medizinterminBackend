@@ -74,49 +74,40 @@ const deleteAppointment = async (req, res) => {
     }
 }
 
+
+const getAppointmentsPatient = async (req, res) => {
+    try{
+        let appointmentsPat = await AppointmentModel.find({
+                patient: req.params.id
+            }
+        )
+        return res.status(200).json(appointmentsPat)
+    }catch (err){
+        return res.status(500).json({message: err.message})
+
+    }
+}
+
+const getAppointmentsDoctor = async (req, res) => {
+    try{
+        let appointmentsPat = await AppointmentModel.find({
+                doctor: req.params.id
+            }
+        )
+        return res.status(200).json(appointmentsPat)
+    }catch (err){
+        return res.status(500).json({message: err.message})
+
+    }
+}
+
 const getAppointment = async (req, res) => {
     try {
-
-        /*
-        let appointmentWithID = await  AppointmentModel.findById(req.params.id)
-        let appointmentsDoctor = await AppointmentModel.find({doctor: req.params.id})
-        let appointmentsPatients = await AppointmentModel.find(patient:req.params.id)
-        if (appointmentsDoctor.length ===0 && appointmentsPatients.length ===0 && appointmentWithID===null){
-            return res.status(404).json({message: "Can not find specified appointment(s)"})
-        }
-        let appointments = appointmentsDoctor.concat(appointmentsPatients)
-        appointments.push(appointmentWithID)
-            return res.status(200).json(appointments)
-
-         */
-
-        switch (req.body.usecase){
-            case Enum.GetAppointmentUseCAse.APPOINTMENT:
                 let appointment = await AppointmentModel.findById(req.params.id)
                 if (appointment == null) {
                     return res.status(404).json({message: "Can not find specified appointment"})
                 }
                 return res.status(200).json(appointment)
-                break;
-            case Enum.GetAppointmentUseCAse.DOCTOR:
-                let appointmentsDoc = await AppointmentModel.find({
-                    doctor: req.params.id
-                    }
-                )
-
-                return res.status(200).json(appointmentsDoc)
-                break;
-
-            case Enum.GetAppointmentUseCAse.PATIENT:
-                let appointmentsPat = await AppointmentModel.find({
-                        patient: req.params.id
-                    }
-                )
-
-                return res.status(200).json(appointmentsPat)
-                break;
-
-        }
 
 
     } catch (err) {
@@ -212,6 +203,8 @@ module.exports = {
     updateAppointment,
     getAppointment,
     filterAppointment,
+    getAppointmentsPatient,
+    getAppointmentsDoctor,
 }
 
 

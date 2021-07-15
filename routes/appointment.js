@@ -24,6 +24,14 @@ router.get(
     "/:id",
     AppointmentsController.getAppointment,
 )
+router.get(
+    "/doctor/:id",
+    AppointmentsController.getAppointmentsDoctor,
+)
+router.get(
+    "/patient/:id",
+    AppointmentsController.getAppointmentsPatient,
+)
 
 router.post(
     "/filter",
