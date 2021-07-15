@@ -69,6 +69,7 @@ const DoctorSchema = new mongoose.Schema(
             type: AddressSchema,
             required: true,
         },
+
         
         //phone number, not required 
         phone_number: String,
