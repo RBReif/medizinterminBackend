@@ -36,6 +36,9 @@ router.put(
 router.delete(
     "/:id",
     DoctorController.remove
-)
+);
+
+router.get("/rate/:id", DoctorController.getRate); // Get the audience rating of this doctor by Id
+router.put("/rate/:id", middlewares.checkAuthentication, DoctorController.rate); // Rate doctor with Id. needs a logged in user
 
 module.exports = router;

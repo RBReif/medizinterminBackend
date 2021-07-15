@@ -216,6 +216,101 @@ const remove = async (req, res) => {
     }
 };
 
+//Doctorlist
+const list = async (req, res) => {
+    try {
+        // get all doctors in database
+        let doctors = await DoctorModel.find({}).exec();
+
+        // return gotten doctors
+        return res.status(200).json(doctors);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            error: "Internal server error",
+            message: err.message,
+        });
+    }
+};
+
+//Rate a doctor 
+const rate = async (req, res) => {
+    try {
+        let votedDoctorId = req.params.id;
+
+        // find a doctor that has the id and is voted by the user
+        // returns null if the user has not voted this doctor
+        let alreadyVotedDoctor = await DoctorModel.findOne({
+            _id: votedDoctorId,
+            // "audienceRatings.userId": req.userId, ????????????????????????????
+        });
+
+        // check if user has already voted this doctor
+        if (alreadyVotedDoctor !== null) {
+            // if the user has already voted update his voting entry
+            await DoctorModel.updateOne(
+                {
+                    _id: votedDoctorId,
+                    "audienceRatings.patientId": req.patientId,
+                },
+                {
+                    $set: {
+                        "audienceRatings.$.rating": req.body.rating,
+                    },
+                }
+            );
+        } else {
+            // if the user has not voted create a new rating entry
+            let ratingObject = {
+                patientId: req.patientId,
+                rating: req.body.rating,
+            };
+            await DoctorModel.findByIdAndUpdate(votedDoctorId, {
+                $push: { audienceRatings: ratingObject },
+            });
+        }
+
+        return res.status(200).json({});
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            error: "Internal server error",
+            message: err.message,
+        });
+    }
+};
+
+//get the rate of a doctor
+const getRate = async (req, res) => {
+    try {
+        let doctorId = req.params.id;
+
+        // get the doctor
+        let doctorRating = await DoctorModel.findById(doctorId);
+
+        // extract the average audience rating
+        let rating = doctorRating.avgAudienceRating;
+
+        // return average audience rating
+        return res.status(200).json({ rating: rating });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            error: "Internal server error",
+            message: err.message,
+        });
+    }
+};
+
+
+//*********TO DO *********
+//get the location of the doctor and calculate the distance
+// DoctorSchema.virtual("distance").get(function() {
+//     //calculate the distance 
+
+// });
+
+
 module.exports = {
     create,
     read,
@@ -224,4 +319,7 @@ module.exports = {
     login,
     register,
     logout,
+    list,
+    rate,
+    getRate,
 }

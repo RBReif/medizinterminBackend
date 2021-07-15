@@ -7,6 +7,28 @@ const Enum = require("../src/enums")
 // this is that the later created virtuals are included in the json send to the user
 const opts = { toJSON: { virtuals: true } };
 
+// Define schema for ratings
+const RatingSchema = new mongoose.Schema({
+            //address, required
+            address: {
+                type: String,
+                required: true
+            },
+            //the address as lat and long
+            latitude: String,
+            longitude: String,
+    });
+
+const AddressSchema = new mongoose.Schema({
+    patientId: { type: mongoose.Schema.Types.ObjectId, ref: "patient" },
+    // rating of user
+    rating: {
+        type: Number,
+        min: 1,
+        max: 5,
+    },
+});
+
 /***
  *
  * @type {mongoose.Schema}
@@ -16,6 +38,7 @@ const opts = { toJSON: { virtuals: true } };
  * languages - Enum(Language)
  * special_facilities - Enum(SpecialFacility)
  */
+
 const DoctorSchema = new mongoose.Schema(
     {
         username:{
@@ -27,18 +50,24 @@ const DoctorSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        // name of doctor
+        // name of doctor, required
         name: {
             type: String,
             required: true,
         },
 
-        // area_of_expertise
+        last_name: {
+            type: String,
+            required: true,
+        },
+
+        // area_of_expertise, required
         area_of_expertise: {
             type: String,
             enum: Enum.AreaOfExpertise,
             required: true,
         },
+        //spooken languages, required
         languages: {
             type: [String],
             enum: Enum.Language,
@@ -47,9 +76,37 @@ const DoctorSchema = new mongoose.Schema(
         special_facilities: {
             type: [String],
             enum: Enum.SpecialFacility,
-        }
+        },
+        
+        //phone number, not required 
+        phone_number: String,
+
+        //doctors' rating
+        audienceRatings: [RatingSchema],
+
+        //thumbnail image, not required 
+        //thumbnail is stored somewhere else, only the reference url to the image will be saved in the model.
+        thumbnail: String, 
     },
     {collection: 'doctor'}
 );
+
+DoctorSchema.virtual("avgAudienceRating").get(function () {
+    let avgRating = 0;
+    let ratings = 0;
+    // if there are no ratings return 0
+    if (this.audienceRatings.length === 0) {
+        return 0;
+    }
+    this.audienceRatings.map((rating) => {
+        if (typeof rating.rating === "number") {
+            avgRating += rating.rating;
+        }
+        ratings++;
+    });
+    avgRating = avgRating / ratings;
+    return avgRating;
+});
+
 // Export the Doctor model
 module.exports = mongoose.model("doctor", DoctorSchema);
