@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 // this is that the later created virtuals are included in the json send to the user
 const Enum = require("../src/enums")
 const opts = { toJSON: { virtuals: true } };
+const AddressSchema = require("../models/address")
 
 /***
  *
@@ -25,16 +26,31 @@ const PatientSchema = new mongoose.Schema({
             type: String,
             required: true,
         },
-    // name of patient
-    name: String,
+    // firstname of patient
+    firstname: {
+        type: String,
+        required: true,
+    },
+    // lastname of patient
+    lastname: {
+        type: String,
+        required: true,
+    },
     // date of birth
-    date_of_birth: Date,
+    date_of_birth: {
+        type: Date,
+        required: true,
+    },
     // insurance
     insurance: {
         type: String,
         enum: Enum.InsuranceType,
         required: true,
     },
+    address: {
+        type: AddressSchema,
+        require: true,
+    }
 },
     {collection: 'patient'});
 // Export the Patient model

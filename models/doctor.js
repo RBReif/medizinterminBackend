@@ -2,24 +2,11 @@
 
 const mongoose = require("mongoose");
 const Enum = require("../src/enums")
-//const area_of_expertise = require("../enums/area_of_expertise.js")
-//import {AreaOfExpertise} from '../enums'
+const AddressSchema = require("../models/address")
 // this is that the later created virtuals are included in the json send to the user
 const opts = { toJSON: { virtuals: true } };
 
-// Define schema for ratings
 const RatingSchema = new mongoose.Schema({
-            //address, required
-            address: {
-                type: String,
-                required: true
-            },
-            //the address as lat and long
-            latitude: String,
-            longitude: String,
-    });
-
-const AddressSchema = new mongoose.Schema({
     patientId: { type: mongoose.Schema.Types.ObjectId, ref: "patient" },
     // rating of user
     rating: {
@@ -50,13 +37,13 @@ const DoctorSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        // name of doctor, required
-        name: {
+        // firstname of doctor, required
+        firstname: {
             type: String,
             required: true,
         },
-
-        last_name: {
+        // lastname of doctor, required
+        lastname: {
             type: String,
             required: true,
         },
@@ -67,7 +54,7 @@ const DoctorSchema = new mongoose.Schema(
             enum: Enum.AreaOfExpertise,
             required: true,
         },
-        //spooken languages, required
+        //spoken languages, required
         languages: {
             type: [String],
             enum: Enum.Language,
@@ -76,6 +63,11 @@ const DoctorSchema = new mongoose.Schema(
         special_facilities: {
             type: [String],
             enum: Enum.SpecialFacility,
+        },
+        // address, required
+        address: {
+            type: AddressSchema,
+            required: true,
         },
         
         //phone number, not required 
