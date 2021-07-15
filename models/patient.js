@@ -49,7 +49,7 @@ const PatientSchema = new mongoose.Schema({
     },
     address: {
         type: AddressSchema,
-        require: true,
+        // require: true,
     }
 },
     {collection: 'patient'});
