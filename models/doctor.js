@@ -7,6 +7,28 @@ const Enum = require("../src/enums")
 // this is that the later created virtuals are included in the json send to the user
 const opts = { toJSON: { virtuals: true } };
 
+// Define schema for ratings
+const RatingSchema = new mongoose.Schema({
+            //address, required
+            address: {
+                type: String,
+                required: true
+            },
+            //the address as lat and long
+            latitude: String,
+            longitude: String,
+    });
+
+const AddressSchema = new mongoose.Schema({
+    patientId: { type: mongoose.Schema.Types.ObjectId, ref: "patient" },
+    // rating of user
+    rating: {
+        type: Number,
+        min: 1,
+        max: 5,
+    },
+});
+
 /***
  *
  * @type {mongoose.Schema}
@@ -16,6 +38,7 @@ const opts = { toJSON: { virtuals: true } };
  * languages - Enum(Language)
  * special_facilities - Enum(SpecialFacility)
  */
+
 const DoctorSchema = new mongoose.Schema(
     {
         username:{
@@ -29,6 +52,11 @@ const DoctorSchema = new mongoose.Schema(
         },
         // name of doctor, required
         name: {
+            type: String,
+            required: true,
+        },
+
+        last_name: {
             type: String,
             required: true,
         },
@@ -49,11 +77,7 @@ const DoctorSchema = new mongoose.Schema(
             type: [String],
             enum: Enum.SpecialFacility,
         },
-        //address, required
-        address: {
-            type: String,
-            required: true
-        },
+        
         //phone number, not required 
         phone_number: String,
 
@@ -66,18 +90,6 @@ const DoctorSchema = new mongoose.Schema(
     },
     {collection: 'doctor'}
 );
-
-// Define schema for ratings
-const RatingSchema = new mongoose.Schema({
-    // user who gave the rating
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    // rating of user
-    rating: {
-        type: Number,
-        min: 1,
-        max: 5,
-    },
-});
 
 DoctorSchema.virtual("avgAudienceRating").get(function () {
     let avgRating = 0;
