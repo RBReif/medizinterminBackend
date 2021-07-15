@@ -25,8 +25,8 @@ router.get(
     AppointmentsController.getAppointment,
 )
 
-router.get(
-    "/",
+router.post(
+    "/filter",
     AppointmentsController.filterAppointment,
 )
 
