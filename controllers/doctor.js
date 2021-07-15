@@ -240,7 +240,7 @@ const rate = async (req, res) => {
 
         // find a doctor that has the id and is voted by the user
         // returns null if the user has not voted this doctor
-        let alreadyVotedMovie = await DoctorModel.findOne({
+        let alreadyVotedDoctor = await DoctorModel.findOne({
             _id: votedDoctorId,
             // "audienceRatings.userId": req.userId, ????????????????????????????
         });
@@ -251,7 +251,7 @@ const rate = async (req, res) => {
             await DoctorModel.updateOne(
                 {
                     _id: votedDoctorId,
-                    "audienceRatings.userId": req.userId,
+                    "audienceRatings.patientId": req.patientId,
                 },
                 {
                     $set: {
@@ -262,7 +262,7 @@ const rate = async (req, res) => {
         } else {
             // if the user has not voted create a new rating entry
             let ratingObject = {
-                userId: req.userId,
+                patientId: req.patientId,
                 rating: req.body.rating,
             };
             await DoctorModel.findByIdAndUpdate(votedDoctorId, {
