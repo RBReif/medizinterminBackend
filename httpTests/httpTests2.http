@@ -16,9 +16,10 @@ POST http://localhost:4000/doctor/
 Content-Type: application/json
 
 {
-"username": "testRadiologist5",
+"username": "testRadiologist522",
 "password": "1234",
-"name": "Max Musterman",
+"name": "tim",
+  "last_name": "tucker",
 "area_of_expertise": "RADIOLOGIST",
 "languages": ["FRENCH","ENGLISH"],
 "special_facilities": ["PARKING"]
@@ -101,9 +102,21 @@ Content-Type: application/json
 {
   "doctor": "60e70bc72c79d33ed899b25f",
   "patient": "60e6bcc4e9f26d8dcca6f331",
-  "startPoint": "2021-07-18T20:30:00.000Z"
+  "startPoint": "2021-07-20T20:30:00.000Z"
 }
 
 ###
 
 GET http://localhost:4000/appointment/patient/60e6bcc4e9f26d8dcca6f331
+
+###
+POST http://localhost:4000/appointment
+Content-Type: application/json
+
+{
+  "doctor": "60f02fb877b8151174bbd394",
+  "patient": "60e6bcc4e9f26d8dcca6f331",
+  "startPoint": "2021-07-27T20:30:00.000Z"
+}
+###
+GET http://localhost:4000/doctor
