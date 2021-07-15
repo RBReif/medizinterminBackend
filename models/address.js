@@ -8,7 +8,7 @@ const opts = { toJSON: { virtuals: true } };
 
 const AddressSchema = new mongoose.Schema({
     //address, required
-    addressValue: {
+    address_value: {
         type: String,
         required: true
     },

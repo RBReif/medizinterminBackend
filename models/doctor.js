@@ -7,7 +7,7 @@ const AddressSchema = require("../models/address")
 const opts = { toJSON: { virtuals: true } };
 
 const RatingSchema = new mongoose.Schema({
-    patientId: { type: mongoose.Schema.Types.ObjectId, ref: "patient" },
+    patient_id: { type: mongoose.Schema.Types.ObjectId, ref: "patient" },
     // rating of user
     rating: {
         type: Number,
@@ -74,7 +74,7 @@ const DoctorSchema = new mongoose.Schema(
         phone_number: String,
 
         //doctors' rating
-        audienceRatings: [RatingSchema],
+        audience_ratings: [RatingSchema],
 
         //thumbnail image, not required 
         //thumbnail is stored somewhere else, only the reference url to the image will be saved in the model.
