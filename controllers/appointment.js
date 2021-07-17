@@ -121,18 +121,43 @@ var isDate = function (date) {
     return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
 }
 
+
+
+
+// //This component will go somewhere else
+// //In the backend most probaly. It will calculate the distance between two coordinates
+// let hbf = {lat: 48.166629, lng: 11.591026}
+// let home = {lat: 48.1402669, lng: 11.559998};
+
+//This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+function calcDistance(lat1, lng1, lat2, lng2)
+{
+    var R = 6371; // km
+    var dLat = toRad(lat2-lat1);
+    var dLng = toRad(lng2-lng1);
+    var lat1 = toRad(lat1);
+    var lat2 = toRad(lat2);
+
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.sin(dLng/2) * Math.sin(dLng/2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    return d;
+}
+// Converts numeric degrees to radians
+function toRad(Value)
+{
+    return Value * Math.PI / 180;
+}
+
+
+
 const filterAppointment = async (req, res) => {
     try {
 
         let profession = req.body.profession
         if (!Object.values(Enum.AreaOfExpertise).includes(profession)) {
             return res.status(400).json({message: "Profession unknown"})
-        }
-
-        //ADDRESS :: :: :: :: :: 
-        let address = req.body.address
-        if (!Object.values().includes(address)) {
-            return res.status(400).json({message: "Address unknown"})
         }
 
 
@@ -166,33 +191,21 @@ const filterAppointment = async (req, res) => {
         }
         console.log(fittingDoctors)
 
-        // //This component will go somewhere else 
-  // //In the backend most probaly. It will calculate the distance between two coordinates
-  // let hbf = {lat: 48.166629, lng: 11.591026}
-  // let home = {lat: 48.1402669, lng: 11.559998};
+        //ADDRESS :: :: :: :: ::
+        let address = req.body.address
+        if (!Object.values().includes(address)) {
+            return res.status(400).json({message: "Address unknown"})
+        }
 
-   //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
-   function calcDistance(lat1, lng1, lat2, lng2) 
-   {
-     var R = 6371; // km
-     var dLat = toRad(lat2-lat1);
-     var dLng = toRad(lng2-lng1);
-     var lat1 = toRad(lat1);
-     var lat2 = toRad(lat2);
+        let maxDistance = req.body.radius
+        if (!Object.values().includes(radius)) {
+            return res.status(400).json({message: "max distance not specified"})
+        }
 
-     var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-       Math.sin(dLng/2) * Math.sin(dLng/2) * Math.cos(lat1) * Math.cos(lat2); 
-     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-     var d = R * c;
-     return d;
-   }
-   // Converts numeric degrees to radians
-   function toRad(Value) 
-   {
-       return Value * Math.PI / 180;
-   }
+        fittingDoctors = fittingDoctors.filter((item) => calcDistance(item.address.lat,item.address.lng, address.lat, address.lng)<=maxDistance)
 
-  //  let test = calcDistance(hbf.lat, hbf.lng, home.lat, home.lng);
+
+        //  let test = calcDistance(hbf.lat, hbf.lng, home.lat, home.lng);
   //  console.log("DISTANCE: ", test);
 
 
