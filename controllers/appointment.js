@@ -121,6 +121,40 @@ var isDate = function (date) {
     return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
 }
 
+
+
+
+// //This component will go somewhere else
+// //In the backend most probaly. It will calculate the distance between two coordinates
+// let hbf = {lat: 48.166629, lng: 11.591026}
+// let home = {lat: 48.1402669, lng: 11.559998};
+
+//This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+function calcDistance(lat1x, lng1, lat2x, lng2)
+{
+    console.log("EINGEGEBEN WURDE: ", lat1,lng1, lat2, lng2)
+    let R = 6371; // km
+    let dLat = toRad(lat2-lat1);
+    let dLng = toRad(lng2-lng1);
+    let lat1 = toRad(lat1x);
+    let lat2 = toRad(lat2x);
+
+    let a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.sin(dLng/2) * Math.sin(dLng/2) * Math.cos(lat1) * Math.cos(lat2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    let d = R * c;
+    console.log("DISTANCE ", d)
+    return d;
+}
+// Converts numeric degrees to radians
+function toRad(Value)
+{
+    return Value * Math.PI / 180;
+}
+
+
+
+
 const filterAppointment = async (req, res) => {
     try {
 
@@ -159,6 +193,33 @@ const filterAppointment = async (req, res) => {
             });
         }
         console.log(fittingDoctors)
+
+        //ADDRESS :: :: :: :: ::
+        let address = req.body.address
+        if (!Object.values().includes(address)) {
+            return res.status(400).json({message: "Address unknown"})
+        }
+        let lng = req.body.lng
+        if (!Object.values().includes(lng)) {
+            return res.status(400).json({message: "Longitude unknown"})
+        }
+        let lat = req.body.lat
+        if (!Object.values().includes(lat)) {
+            return res.status(400).json({message: "Latitude unknown"})
+        }
+
+        let maxDistance = req.body.radius
+        if (!Object.values().includes(radius)) {
+            return res.status(400).json({message: "max distance not specified"})
+        }
+
+        fittingDoctors = fittingDoctors.filter((item) => calcDistance(item.address.lat,item.address.lng, lat, lng)<=maxDistance)
+
+
+        //  let test = calcDistance(hbf.lat, hbf.lng, home.lat, home.lng);
+  //  console.log("DISTANCE: ", test);
+
+
 
         let fittingDoctorIDs = fittingDoctors.map((item) => item["_id"])
 
