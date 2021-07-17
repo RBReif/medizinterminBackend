@@ -130,18 +130,20 @@ var isDate = function (date) {
 // let home = {lat: 48.1402669, lng: 11.559998};
 
 //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
-function calcDistance(lat1, lng1, lat2, lng2)
+function calcDistance(lat1x, lng1, lat2x, lng2)
 {
-    var R = 6371; // km
-    var dLat = toRad(lat2-lat1);
-    var dLng = toRad(lng2-lng1);
-    var lat1 = toRad(lat1);
-    var lat2 = toRad(lat2);
+    console.log("EINGEGEBEN WURDE: ", lat1,lng1, lat2, lng2)
+    let R = 6371; // km
+    let dLat = toRad(lat2-lat1);
+    let dLng = toRad(lng2-lng1);
+    let lat1 = toRad(lat1x);
+    let lat2 = toRad(lat2x);
 
-    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    let a = Math.sin(dLat/2) * Math.sin(dLat/2) +
         Math.sin(dLng/2) * Math.sin(dLng/2) * Math.cos(lat1) * Math.cos(lat2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    var d = R * c;
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    let d = R * c;
+    console.log("DISTANCE ", d)
     return d;
 }
 // Converts numeric degrees to radians
@@ -196,13 +198,21 @@ const filterAppointment = async (req, res) => {
         if (!Object.values().includes(address)) {
             return res.status(400).json({message: "Address unknown"})
         }
+        let lng = req.body.lng
+        if (!Object.values().includes(lng)) {
+            return res.status(400).json({message: "Longitude unknown"})
+        }
+        let lat = req.body.lat
+        if (!Object.values().includes(lat)) {
+            return res.status(400).json({message: "Latitude unknown"})
+        }
 
         let maxDistance = req.body.radius
         if (!Object.values().includes(radius)) {
             return res.status(400).json({message: "max distance not specified"})
         }
 
-        fittingDoctors = fittingDoctors.filter((item) => calcDistance(item.address.lat,item.address.lng, address.lat, address.lng)<=maxDistance)
+        fittingDoctors = fittingDoctors.filter((item) => calcDistance(item.address.lat,item.address.lng, lat, lng)<=maxDistance)
 
 
         //  let test = calcDistance(hbf.lat, hbf.lng, home.lat, home.lng);
