@@ -2,32 +2,19 @@
 
 const mongoose = require("mongoose");
 const Enum = require("../src/enums")
-//const area_of_expertise = require("../enums/area_of_expertise.js")
-//import {AreaOfExpertise} from '../enums'
+const AddressSchema = require("../models/address")
 // this is that the later created virtuals are included in the json send to the user
 const opts = { toJSON: { virtuals: true } };
 
-// Define schema for ratings
-const AddressSchema = new mongoose.Schema({
-            //address, required
-            address: {
-                type: String,
-                required: true
-            },
-            //the address as lat and long
-            latitude: String,
-            longitude: String,
-    });
-
-// const Ratingschema = new mongoose.Schema({
-//     patientId: { type: mongoose.Schema.Types.ObjectId, ref: "patient" },
-//     // rating of user
-//     rating: {
-//         type: Number,
-//         min: 1,
-//         max: 5,
-//     },
-// });
+const RatingSchema = new mongoose.Schema({
+    patient_id: { type: mongoose.Schema.Types.ObjectId, ref: "patient" },
+    // rating of user
+    rating: {
+        type: Number,
+        min: 1,
+        max: 5,
+    },
+});
 
 /***
  *
@@ -50,13 +37,13 @@ const DoctorSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        // name of doctor, required
-        name: {
+        // firstname of doctor, required
+        firstname: {
             type: String,
             required: true,
         },
-
-        last_name: {
+        // lastname of doctor, required
+        lastname: {
             type: String,
             required: true,
         },
@@ -67,7 +54,7 @@ const DoctorSchema = new mongoose.Schema(
             enum: Enum.AreaOfExpertise,
             required: true,
         },
-        //spooken languages, required
+        //spoken languages, required
         languages: {
             type: [String],
             enum: Enum.Language,
@@ -77,15 +64,18 @@ const DoctorSchema = new mongoose.Schema(
             type: [String],
             enum: Enum.SpecialFacility,
         },
+        // address, required
+        address: {
+            type: AddressSchema,
+            required: true,
+        },
 
-        //addresss:
-        address: [AddressSchema],
         
         //phone number, not required 
         phone_number: String,
 
         //doctors' rating
-        // audienceRatings: [RatingSchema],
+        audience_ratings: [RatingSchema],
 
         //thumbnail image, not required 
         //thumbnail is stored somewhere else, only the reference url to the image will be saved in the model.
