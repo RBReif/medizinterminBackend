@@ -121,14 +121,6 @@ var isDate = function (date) {
     return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
 }
 
-
-
-
-// //This component will go somewhere else
-// //In the backend most probaly. It will calculate the distance between two coordinates
-// let hbf = {lat: 48.166629, lng: 11.591026}
-// let home = {lat: 48.1402669, lng: 11.559998};
-
 //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
 function calcDistance(lat1x, lng1, lat2x, lng2)
 {
@@ -151,9 +143,6 @@ function toRad(Value)
 {
     return Value * Math.PI / 180;
 }
-
-
-
 
 const filterAppointment = async (req, res) => {
     try {
