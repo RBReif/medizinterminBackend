@@ -7,7 +7,8 @@ const read = async (req, res) => {
             areas : Object.values(enums.AreaOfExpertise),
             insurances: Object.values(enums.InsuranceType),
             languages: Object.values(enums.Language),
-            facilities: Object.values(enums.SpecialFacility)
+            facilities: Object.values(enums.SpecialFacility),
+            genders: Object.values(enums.Genders),
         })
     }catch (err){
         console.log(err)

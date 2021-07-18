@@ -90,9 +90,10 @@ POST http://localhost:4000/appointment
 Content-Type: application/json
 
 {
+  "appointmentStatus": "SCHEDULED",
   "doctor": "60e70bc72c79d33ed899b25f",
-  "patient": "60e6bcc4e9f26d8dcca6f331",
-  "startPoint": "2021-07-09T20:30:00.000Z"
+  "patient": "60f36768ba6f3850704a5609",
+  "startPoint": "2021-07-29T20:30:00.000Z"
 }
 
 ###

@@ -9,6 +9,7 @@ const AreaOfExpertise = {
     PEDIATRICIAN: "PEDIATRICIAN",
     ONCOLOGIST: "ONCOLOGIST",
     GENERAL_PHYSICIAN: "GENERAL_PHYSICIAN",
+    DERMATOLOGIST: "DERMATOLOGIST",
 }
 
 const InsuranceType = {
@@ -52,6 +53,12 @@ const UserType = {
 
 }
 
+const Genders = {
+    MALE: "MALE",
+    FEMALE: "FEMALE",
+    OTHER: "OTHER",
+}
+
 module.exports = {
     AreaOfExpertise,
     InsuranceType,
@@ -59,5 +66,6 @@ module.exports = {
     SpecialFacility,
     AppointmentStatus,
     UserType,
-    GetAppointmentUseCAse
+    GetAppointmentUseCAse,
+    Genders
 }

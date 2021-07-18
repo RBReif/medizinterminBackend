@@ -50,7 +50,11 @@ const PatientSchema = new mongoose.Schema({
     address: {
         type: AddressSchema,
         require: true,
-    }
+    },
+    gender: {
+        type: String,
+        required: true,
+    },
 },
     {collection: 'patient'});
 // Export the Patient model
