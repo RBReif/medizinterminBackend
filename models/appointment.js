@@ -34,6 +34,16 @@ const AppointmentSchema = new mongoose.Schema(
             enum: Enum.AppointmentStatus,
             required:true,
             default:Enum.AppointmentStatus.AVAILABLE,
+        },
+
+        appointmentDetails:{
+            type: String,
+            required: false,
+        },
+
+        appointmentTitle:{
+            type: String,
+            required: false,
         }
     }
 )
