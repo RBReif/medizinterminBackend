@@ -124,9 +124,9 @@ var isDate = function (date) {
 //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
 function calcDistance(lat1x, lng1, lat2x, lng2)
 {
-    console.log("EINGEGEBEN WURDE: ", lat1,lng1, lat2, lng2)
+    console.log("EINGEGEBEN WURDE: ", lat1x,lng1, lat2x, lng2)
     let R = 6371; // km
-    let dLat = toRad(lat2-lat1);
+    let dLat = toRad(lat2x-lat1x);
     let dLng = toRad(lng2-lng1);
     let lat1 = toRad(lat1x);
     let lat2 = toRad(lat2x);
@@ -185,29 +185,30 @@ const filterAppointment = async (req, res) => {
 
         //ADDRESS :: :: :: :: ::
         let address = req.body.address
-        if (!Object.values().includes(address)) {
-            return res.status(400).json({message: "Address unknown"})
-        }
+        console.log("ADDRESS " , address)
+        // if (!Object.values().includes(address)) {
+        //     return res.status(400).json({message: "Address unknown"})
+        // }
         let lng = req.body.lng
-        if (!Object.values().includes(lng)) {
-            return res.status(400).json({message: "Longitude unknown"})
-        }
+        console.log("LNG", lng)
+        // if (!Object.values().includes(lng)) {
+        //     return res.status(400).json({message: "Longitude unknown"})
+        // }
         let lat = req.body.lat
-        if (!Object.values().includes(lat)) {
-            return res.status(400).json({message: "Latitude unknown"})
-        }
+        // if (!Object.values().includes(lat)) {
+        //     return res.status(400).json({message: "Latitude unknown"})
+        // }
 
-        let maxDistance = req.body.radius
-        if (!Object.values().includes(radius)) {
-            return res.status(400).json({message: "max distance not specified"})
-        }
+        let maxDistance = req.body.maxDistance
+        // if (!Object.values().includes(radius)) {
+        //     return res.status(400).json({message: "max distance not specified"})
+        // }
+        
+       
+        console.log("lat lng: ", lat, lng);
+        console.log("Radius : ", maxDistance);
 
         fittingDoctors = fittingDoctors.filter((item) => calcDistance(item.address.lat,item.address.lng, lat, lng)<=maxDistance)
-
-
-        //  let test = calcDistance(hbf.lat, hbf.lng, home.lat, home.lng);
-  //  console.log("DISTANCE: ", test);
-
 
 
         let fittingDoctorIDs = fittingDoctors.map((item) => item["_id"])

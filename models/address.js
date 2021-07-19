@@ -13,8 +13,8 @@ const AddressSchema = new mongoose.Schema({
         required: true
     },
     //the address as lat and long
-    latitude: String,
-    longitude: String,
+    lat: Number,
+    lng: Number,
 });
 
 module.exports = AddressSchema;
