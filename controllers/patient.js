@@ -1,5 +1,5 @@
 "use strict";
-
+const Enums = require("../src/enums");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -32,12 +32,12 @@ const login = async (req, res) => {
             req.body.password,
             patient.password,
         );
-        if (!isPasswordValid) return res.status(401).send({ token: null });
+        if (!isPasswordValid) return res.status(401).send({token: null});
 
         // if patient is found and password is valid
         // create a token
         const token = jwt.sign(
-            { _id: patient._id, username: patient.username},
+            {_id: patient._id, username: patient.username, role: Enums.UserRole.PATIENT, thumbnail: patient.thumbnail},
             config.JwtSecret,
             {
                 expiresIn: 86400, // expires in 24 hours
@@ -48,6 +48,8 @@ const login = async (req, res) => {
             token: token,
             username: patient.username,
             _id: patient._id,
+            role: Enums.UserRole.PATIENT,
+            thumbnail: patient.thumbnail,
         });
     } catch (err) {
         return res.status(404).json({
@@ -89,21 +91,20 @@ const register = async (req, res) => {
         // if user is registered without errors
         // create a token
         const token = jwt.sign(
-            {
-                _id: patient._id,
-                username: patient.username,
-            },
+            {_id: patient._id, username: patient.username, role: Enums.UserRole.PATIENT, thumbnail: patient.thumbnail},
             config.JwtSecret,
             {
                 expiresIn: 86400, // expires in 24 hours
             }
         );
 
-        // doctor created, return generated token
+        // patient created, return generated token
         res.status(201).json({
             token: token,
             username: patient.username,
             _id: patient._id,
+            role: Enums.UserRole.PATIENT,
+            thumbnail: patient.thumbnail,
         });
     } catch (err) {
         if (err.code == 11000) {
@@ -120,7 +121,7 @@ const register = async (req, res) => {
     }
 };
 const logout = (req, res) => {
-    res.status(200).send({ token: null });
+    res.status(200).send({token: null});
 };
 const create = async (req, res) => {
     // check if the body of the request contains all necessary properties
@@ -206,7 +207,7 @@ const remove = async (req, res) => {
         // return message that patient was deleted
         return res
             .status(200)
-            .json({ message: `Patient with id${req.params.id} was deleted` });
+            .json({message: `Patient with id${req.params.id} was deleted`});
     } catch (err) {
         console.log(err);
         return res.status(500).json({
