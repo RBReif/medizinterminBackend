@@ -1,5 +1,5 @@
 "use strict";
-
+const Enums = require("../src/enums")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -37,7 +37,7 @@ const login = async (req, res) => {
         // if user is found and password is valid
         // create a token
         const token = jwt.sign(
-            { _id: doctor._id, username: doctor.username},
+            { _id: doctor._id, username: doctor.username, role: Enums.UserRole.DOCTOR},
             config.JwtSecret,
             {
                 expiresIn: 86400, // expires in 24 hours
@@ -48,6 +48,7 @@ const login = async (req, res) => {
             token: token,
             username: doctor.username,
             _id: doctor._id,
+            role: Enums.UserRole.DOCTOR,
         });
     } catch (err) {
         return res.status(404).json({
