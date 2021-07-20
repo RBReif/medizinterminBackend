@@ -1,4 +1,7 @@
+
 "use strict";
+const moment= require('moment')
+
 
 const AppointmentModel = require("../models/appointment");
 const DoctorModel = require("../models/doctor")
@@ -7,14 +10,32 @@ const Enum = require("../src/enums")
 
 
 const createAppointment = async (req, res) => {
-
+  //  console.log("CREATE APPOINTMENT STARTED")
     try {
         let doctor = await DoctorModel.findById(req.body.doctor)
         if (doctor == null) {
             return res.status(400).json({message: "The doctor ID does not belong to a stored doctor."})
         }
-        let appointment = await AppointmentModel.create(req.body);
-        res.status(201).json(appointment)
+   //     console.log("CREATE APPOINTMENT FOUND DOCTOR : ", doctor)
+        let endPoint = new Date(req.body.endPoint)
+    //    console.log("CREATE APPOINTMENT FOUND endPoint : ", endPoint)
+
+        let curAppointment = req.body
+      //  console.log ("Cur Appointemnt: ", curAppointment)
+        delete curAppointment.endPoint
+      //  console.log ("Cur Appointemnt: ", curAppointment)
+
+        let i = 100 //protection against spam
+        let appointments=[]
+        while((endPoint !== moment(new Date(curAppointment.startPoint)).add(30, "m").toDate()) && i>0) {
+            i--
+            //console.log ("Cur Appointemnt: ", curAppointment)
+
+            let appointment = await AppointmentModel.create(curAppointment);
+            appointments.push(appointment)
+            curAppointment.startPoint = moment(new Date(curAppointment.startPoint)).add(30, "m").toDate()
+        }
+        res.status(201).json(appointments)
     } catch (err) {
         console.log(err)
         res.status(400).json({message: err.message})
