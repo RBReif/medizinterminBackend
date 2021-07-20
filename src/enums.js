@@ -59,6 +59,11 @@ const Genders = {
     OTHER: "OTHER",
 }
 
+const UserRole = {
+    PATIENT: "PATIENT",
+    DOCTOR: "DOCTOR",
+}
+
 module.exports = {
     AreaOfExpertise,
     InsuranceType,
@@ -67,5 +72,6 @@ module.exports = {
     AppointmentStatus,
     UserType,
     GetAppointmentUseCAse,
-    Genders
+    Genders,
+    UserRole
 }
