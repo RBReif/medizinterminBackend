@@ -62,7 +62,7 @@ const updateAppointment = async (req, res) => {
         if (req.body.hasOwnProperty('appointmentDetails')){
             appointment.appointmentDetails = req.body.appointmentDetails
         }
-        if (req.body.hasOwnProperty('appointmentTitel')){
+        if (req.body.hasOwnProperty('appointmentTitle')){
             appointment.appointmentTitle = req.body.appointmentTitle
         }
 
