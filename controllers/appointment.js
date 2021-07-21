@@ -49,6 +49,33 @@ const updateAppointment = async (req, res) => {
         if (appointment == null) {
             return res.status(404).json({message: "Can not find specified appointment"})
         }
+
+        if (req.body.hasOwnProperty('patient')){
+            if (req.body.patient== null){
+                console.log(" is set to null")
+                 //   console.log (" has property")
+                     appointment.patient = undefined
+                console.log(appointment)
+
+            } else{
+            appointment.patient = req.body.patient}
+        }
+        if (req.body.hasOwnProperty('appointmentStatus')){
+            if (!Object.values(Enum.AppointmentStatus).includes(req.body.appointmentStatus)) {
+                return res.status(400).json({message: "AppointmentStatus unknown"})
+            }
+            appointment.appointmentStatus = req.body.appointmentStatus
+        }
+        if (req.body.hasOwnProperty('appointmentDetails')){
+            appointment.appointmentDetails = req.body.appointmentDetails
+        }
+        if (req.body.hasOwnProperty('appointmentTitle')){
+            appointment.appointmentTitle = req.body.appointmentTitle
+        }
+
+
+
+        /*
         switch (req.body.appointmentStatus) {
             case Enum.AppointmentStatus.SCHEDULED:
                 if (appointment.appointmentStatus !== Enum.AppointmentStatus.AVAILABLE) {
@@ -75,6 +102,8 @@ const updateAppointment = async (req, res) => {
                 return res.status(400).json({message: "Only setting the Status to SUCCESSFUL, FAILED, SCHEDULED is allowed"})
 
         }
+
+         */
         let updatedAppointment = await appointment.save()
         res.status(200).json(updatedAppointment)
     } catch (err) {
