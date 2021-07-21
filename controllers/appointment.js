@@ -51,7 +51,14 @@ const updateAppointment = async (req, res) => {
         }
 
         if (req.body.hasOwnProperty('patient')){
-            appointment.patient = req.body.patient
+            if (req.body.patient== null){
+                console.log(" is set to null")
+                 //   console.log (" has property")
+                     appointment.patient = undefined
+                console.log(appointment)
+
+            } else{
+            appointment.patient = req.body.patient}
         }
         if (req.body.hasOwnProperty('appointmentStatus')){
             if (!Object.values(Enum.AppointmentStatus).includes(req.body.appointmentStatus)) {
