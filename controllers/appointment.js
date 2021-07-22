@@ -22,14 +22,15 @@ const createAppointment = async (req, res) => {
 
         let curAppointment = req.body
       //  console.log ("Cur Appointemnt: ", curAppointment)
+        curAppointment.startPoint = new Date(curAppointment.startPoint)
         delete curAppointment.endPoint
       //  console.log ("Cur Appointemnt: ", curAppointment)
 
         let i = 100 //protection against spam
         let appointments=[]
-        while((endPoint !== moment(new Date(curAppointment.startPoint)).add(30, "m").toDate()) && i>0) {
+        while((endPoint >= moment(new Date(curAppointment.startPoint)).add(30, "m").toDate()) && i>0) {
             i--
-            //console.log ("Cur Appointemnt: ", curAppointment)
+            console.log ("Cur Appointemnt: ", curAppointment, "endpoint: ", endPoint)
 
             let appointment = await AppointmentModel.create(curAppointment);
             appointments.push(appointment)
