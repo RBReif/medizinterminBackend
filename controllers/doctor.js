@@ -248,7 +248,7 @@ const rate = async (req, res) => {
         // returns null if the user has not voted this doctor
         let alreadyVotedDoctor = await DoctorModel.findOne({
             _id: votedDoctorId,
-            // "audienceRatings.userId": req.userId, ????????????????????????????
+            "audience_ratings.patientId": req.patientId,
         });
 
         // check if user has already voted this doctor
@@ -257,11 +257,11 @@ const rate = async (req, res) => {
             await DoctorModel.updateOne(
                 {
                     _id: votedDoctorId,
-                    "audienceRatings.patientId": req.patientId,
+                    "audience_ratings.patientId": req.patientId,
                 },
                 {
                     $set: {
-                        "audienceRatings.$.rating": req.body.rating,
+                        "audience_ratings.$.rating": req.body.rating,
                     },
                 }
             );
@@ -272,7 +272,7 @@ const rate = async (req, res) => {
                 rating: req.body.rating,
             };
             await DoctorModel.findByIdAndUpdate(votedDoctorId, {
-                $push: { audienceRatings: ratingObject },
+                $push: { audience_ratings: ratingObject },
             });
         }
 
@@ -307,15 +307,6 @@ const getRate = async (req, res) => {
         });
     }
 };
-
-
-//*********TO DO *********
-//get the location of the doctor and calculate the distance
-// DoctorSchema.virtual("distance").get(function() {
-//     //calculate the distance 
-
-// });
-
 
 module.exports = {
     create,

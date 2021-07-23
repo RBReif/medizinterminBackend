@@ -81,17 +81,20 @@ const DoctorSchema = new mongoose.Schema(
         //thumbnail is stored somewhere else, only the reference url to the image will be saved in the model.
         thumbnail: String, 
     },
-    {collection: 'doctor'}
+    {collection: 'doctor'},
+    opts
 );
+
+RatingSchema.set("versionKey", false);
 
 DoctorSchema.virtual("avgAudienceRating").get(function () {
     let avgRating = 0;
     let ratings = 0;
     // if there are no ratings return 0
-    if (this.audienceRatings.length === 0) {
+    if (this.audience_ratings.length === 0) {
         return 0;
     }
-    this.audienceRatings.map((rating) => {
+    this.audience_ratings.map((rating) => {
         if (typeof rating.rating === "number") {
             avgRating += rating.rating;
         }
