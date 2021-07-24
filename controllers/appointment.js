@@ -22,6 +22,7 @@ const createAppointment = async (req, res) => {
 
         let curAppointment = req.body
       //  console.log ("Cur Appointemnt: ", curAppointment)
+        curAppointment.startPoint = new Date(curAppointment.startPoint)
         delete curAppointment.endPoint
       //  console.log ("Cur Appointemnt: ", curAppointment)
 
