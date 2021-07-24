@@ -1,1 +1,8 @@
-GET http://localhost:4000/patient/60e6bcc4e9f26d8dcca6f331
+PUT http://localhost:4000/appointment/60f6f2bfa8336023805369cf
+Content-Type: application/json
+
+{
+  "appointmentStatus": "SCHEDULED",
+  "patient": "60f36768ba6f3850704a5609",
+  "appointmentDetails": "joa das wurde upgedatet in den appointment details"
+}
