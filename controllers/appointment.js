@@ -144,7 +144,8 @@ const getAppointmentsDoctor = async (req, res) => {
     let appointments
     try{
         if(req.query.hasOwnProperty("status")) {
-            appointments = await AppointmentModel.find({doctor: req.params.id, appointmentStatus: req.query.status});
+            const statuses = req.query.status.split(",");
+            appointments = await AppointmentModel.find({doctor: req.params.id, appointmentStatus: {$in: statuses}});
         } else {
             appointments = await AppointmentModel.find({doctor: req.params.id})
         }
