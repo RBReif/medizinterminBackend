@@ -4,11 +4,6 @@
 const mongoose = require("mongoose")
 const Enum = require("../src/enums")
 
-/*
-
-
- */
-
 const AppointmentSchema = new mongoose.Schema(
     {
         doctor: { //doctor`s ID
