@@ -32,7 +32,7 @@ Just for the backend application:
 
 Go to your project root folder via command line
 ```
-cd path/to/workspace/seba-master-movie-backend
+cd path/to/workspace/backend
 ```
 
 **Install node dependencies**
@@ -61,11 +61,6 @@ You will also see any errors in the console.
 
 The application (frontend-side) will run on [http://localhost:3000](http://localhost:3000)
 
-**
-
 ## Credit
 
 This application was developed by Team 52 of the SEBA Master Course at TUM in Summer 2021, namely Christoph Kipfer, Maximilian Pfleger, Roland Reif, Mehul Sethi. 
-
-
-
