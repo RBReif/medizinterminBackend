@@ -1,7 +1,5 @@
 # medizintermin-backend application
 
-seba-master-movie-frontend application can be found [here](https://github.com/sebischair/seba-master-movie-frontend)
-
 ## Table of content
 
 - [Introduction](#introduction)
