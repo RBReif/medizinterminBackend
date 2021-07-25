@@ -131,6 +131,7 @@ const getAppointmentsPatient = async (req, res) => {
                 patient: req.params.id
             }
         )
+        appointmentsPat.sort((a,b) => a.startPoint.getTime()-b.startPoint.getTime());
         return res.status(200).json(appointmentsPat)
     }catch (err){
         return res.status(500).json({message: err.message})
@@ -139,15 +140,25 @@ const getAppointmentsPatient = async (req, res) => {
 }
 
 const getAppointmentsDoctor = async (req, res) => {
+    let appointments
     try{
-        let appointmentsPat = await AppointmentModel.find({
-                doctor: req.params.id
-            }
-        )
-        return res.status(200).json(appointmentsPat)
+        if(req.query.hasOwnProperty("status")) {
+            appointments = await AppointmentModel.find({doctor: req.params.id, appointmentStatus: req.query.status});
+        } else {
+            appointments = await AppointmentModel.find({doctor: req.params.id})
+        }
+        if(req.query.hasOwnProperty("date")) {
+            const startpoint = new Date(parseInt(req.query.date)).setHours(0,0,0);
+            const endpoint = new Date(parseInt(req.query.date)).setHours(23, 59, 59);
+            appointments = appointments.filter(a => {
+                let date = new Date(a.startPoint).getTime();
+                return (date >= startpoint && date <= endpoint);
+            })
+        }
+        appointments.sort((a,b) => a.startPoint.getTime()-b.startPoint.getTime());
+        return res.status(200).json(appointments)
     }catch (err){
         return res.status(500).json({message: err.message})
-
     }
 }
 
@@ -305,7 +316,7 @@ module.exports = {
     getAppointment,
     filterAppointment,
     getAppointmentsPatient,
-    getAppointmentsDoctor,
+    getAppointmentsDoctor
 }
 
 
