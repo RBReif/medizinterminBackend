@@ -51,15 +51,15 @@ mongod --dbpath "path/to/database"
 
 ## Run
 
-**Development environment**
-```bash
-npm run devstart
-```
+### `npm start`
 
-**Production environment**
-```bash
-npm start
-```
+Runs the app in the development mode.\
+The backend application will run on [http://localhost:4000](http://localhost:4000)
+
+You will also see any errors in the console.
+
+
+The application (frontend-side) will run on [http://localhost:3000](http://localhost:3000)
 
 **
 
